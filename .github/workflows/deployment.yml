@@ -1,7 +1,9 @@
 name: Deploy Project
-on: push
+# We  can have multiple trigger for a workflow
+on: [push, workflow_dispatch]
 jobs:
   test:
+    # runs-on: define executable environment where jobs steps will be execute
     runs-on: ubuntu-latest
     steps: 
       - name:  Get code 
@@ -15,6 +17,8 @@ jobs:
       - name: Run Tests
         run: npm test
   deploy:
+    # need: allow to prioritize job
+    # deploy job will run after test job.
     needs: test
     runs-on: ubuntu-latest
     steps:
