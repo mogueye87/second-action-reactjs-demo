@@ -1,39 +1,40 @@
-name: Deploy Project
-# We  can have multiple trigger for a workflow
-on: [push, workflow_dispatch]
-jobs:
-  test:
-    # runs-on: define executable environment where jobs steps will be execute
-    runs-on: ubuntu-latest
-    steps: 
-      - name:  Get code 
-        uses: actions/checkout@v3 
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm ci 
-      - name: Run Tests
-        run: npm test
-  deploy:
-    # need: allow to prioritize job
-    # deploy job will run after test job.
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name:  Get code 
-        uses: actions/checkout@v3 
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm ci 
-      - name: Run Tests
-        run: npm test
-      - name: Build project
-        run: npm run build
-      - name: Deploy project
-        run: echo "Deploying ..."
-      
+  name: Deploy Project
+  # We  can have multiple trigger for a workflow
+  on: [push, workflow_dispatch]
+  jobs:
+    test:
+      # runs-on: define executable environment where jobs steps will be execute
+      runs-on: ubuntu-latest
+      steps: 
+        - name:  Get code 
+          # action: custom program
+          uses: actions/checkout@v3 
+        - name: Install NodeJS
+          uses: actions/setup-node@v3
+          with:
+            node-version: '18'
+        - name: Install dependencies
+          run: npm ci 
+        - name: Run Tests
+          run: npm test
+    deploy:
+      # need: allow to prioritize job
+      # deploy job will run after test job.
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name:  Get code 
+          uses: actions/checkout@v3 
+        - name: Install NodeJS
+          uses: actions/setup-node@v3
+          with:
+            node-version: '18'
+        - name: Install dependencies
+          run: npm ci 
+        - name: Run Tests
+          run: npm test
+        - name: Build project
+          run: npm run build
+        - name: Deploy project
+          run: echo "Deploying ..."
+        
